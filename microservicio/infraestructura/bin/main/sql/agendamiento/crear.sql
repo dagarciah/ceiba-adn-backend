@@ -1,1 +1,0 @@
-insert into agendamiento (codigo, desayuno_id, programacion) values (:codigo, :desayunoId, :programacion)

@@ -5,6 +5,11 @@ import java.time.LocalDateTime;
 import com.ceiba.agendamiento.modelo.entidad.Agendamiento;
 import com.ceiba.desayuno.modelo.entidad.DesayunoId;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
+@Builder(setterPrefix = "with")
+@AllArgsConstructor
 public class AgendamientoTestDataBuilder {
 
     private DesayunoId desayunoId;

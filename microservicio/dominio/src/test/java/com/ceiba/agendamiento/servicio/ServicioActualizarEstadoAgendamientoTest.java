@@ -24,14 +24,7 @@ public class ServicioActualizarEstadoAgendamientoTest {
 
     @Test
     public void cancela_agendamiento_en_estado_pendiente() {
-        Long id = 1L;
-        Agendamiento existente = Agendamiento.builder()
-            .id(id)
-            .codigo("ABC123DE")
-            .desayunoId(1L)
-            .programacion(LocalDateTime.now())
-            .estados(Collections.singletonList(EstadoAgendamientoHistorico.pendiente(id)))
-            .build();
+        
 
         when(repositorio.encontrar(id)).thenReturn(existente);
     }
