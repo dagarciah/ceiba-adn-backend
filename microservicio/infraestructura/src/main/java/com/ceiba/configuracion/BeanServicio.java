@@ -35,7 +35,6 @@ public class BeanServicio {
 	
     @Bean
     public ServicioValidadorFechaAgendamiento servicioValidadorFechaAgendamiento(DaoReglaAgendamiento daoReglaAgendamiento) {
-       // List<ReglaAgendamiento> reglas = daoReglaAgendamiento.listar();
         return new ServicioValidadorFechaAgendamiento(Collections.emptyList());
     }
 

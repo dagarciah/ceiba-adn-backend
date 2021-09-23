@@ -80,10 +80,44 @@ public class MapeoReglaAgendamientoTest {
     }
 
     @Test
-    public void exitoso_cuando_deserializa_un_dia_semana() throws SQLException {
+    public void exitoso_cuando_deserializa_dia_semana_lunes() throws SQLException {
+        deserializar_dia_semana_exitosamente("LUNES");
+    }
+
+    @Test
+    public void exitoso_cuando_deserializa_dia_semana_martes() throws SQLException {
+        deserializar_dia_semana_exitosamente("MARTES");
+    }
+
+    @Test
+    public void exitoso_cuando_deserializa_dia_semana_miercoles() throws SQLException {
+        deserializar_dia_semana_exitosamente("MIERCOLES");
+    }
+
+    @Test
+    public void exitoso_cuando_deserializa_dia_semana_jueves() throws SQLException {
+        deserializar_dia_semana_exitosamente("JUEVES");
+    }
+
+    @Test
+    public void exitoso_cuando_deserializa_dia_semana_viernes() throws SQLException {
+        deserializar_dia_semana_exitosamente("VIERNES");
+    }
+
+    @Test
+    public void exitoso_cuando_deserializa_dia_semana_sabado() throws SQLException {
+        deserializar_dia_semana_exitosamente("SABADO");
+    }
+
+    @Test
+    public void exitoso_cuando_deserializa_dia_semana_domingo() throws SQLException {
+        deserializar_dia_semana_exitosamente("DOMINGO");
+    }
+
+    private void deserializar_dia_semana_exitosamente(String dia) throws SQLException {
         ResultSet result = mock(ResultSet.class);
         when(result.getString("tipo")).thenReturn(ReglaDiaDeLaSemanaNoHabil.class.getSimpleName());
-        when(result.getString("dia_semana")).thenReturn("SABADO");
+        when(result.getString("dia_semana")).thenReturn(dia);
 
         ReglaAgendamiento regla = subject.mapRow(result, 1);
 

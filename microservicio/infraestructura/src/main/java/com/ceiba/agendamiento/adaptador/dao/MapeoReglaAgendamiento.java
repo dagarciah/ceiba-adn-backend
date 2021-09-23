@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.ceiba.agendamiento.excepcion.ExcepcionFormatoValorInvalido;
 import com.ceiba.agendamiento.modelo.entidad.FranjaHoraria;
@@ -20,6 +22,18 @@ import org.springframework.jdbc.core.RowMapper;
 
 public class MapeoReglaAgendamiento implements RowMapper<ReglaAgendamiento> {
 
+    private static final String MENSAJE_VALOR_PARA_COLUMNA_TIPO_NO_ESTA_PRESENTE = "Un valor para la columna \"tipo\" no esta presente para el registro.";
+    private static final Map<String, DayOfWeek> DIAS_DE_LA_SEMANA = new HashMap<>();
+    static {        
+        DIAS_DE_LA_SEMANA.put("LUNES", DayOfWeek.MONDAY);
+        DIAS_DE_LA_SEMANA.put("MARTES", DayOfWeek.TUESDAY);
+        DIAS_DE_LA_SEMANA.put("MIERCOLES", DayOfWeek.WEDNESDAY);
+        DIAS_DE_LA_SEMANA.put("JUEVES", DayOfWeek.THURSDAY);
+        DIAS_DE_LA_SEMANA.put("VIERNES", DayOfWeek.FRIDAY);
+        DIAS_DE_LA_SEMANA.put("SABADO", DayOfWeek.SATURDAY);
+        DIAS_DE_LA_SEMANA.put("DOMINGO", DayOfWeek.SUNDAY);
+    }
+
     private final ReglaDiaSemanaNoHabilMapper reglaDiaSemanaNoHabil = new ReglaDiaSemanaNoHabilMapper();
     private final ReglaDiaFeriadoMapper reglaDiaFeriado = new ReglaDiaFeriadoMapper();
     private final ReglaFranjaHorariaMapper reglaFranjaHoraria = new ReglaFranjaHorariaMapper();
@@ -31,13 +45,20 @@ public class MapeoReglaAgendamiento implements RowMapper<ReglaAgendamiento> {
         }
 
         ReglaAgendamiento regla;
-        switch(resultSet.getString("tipo")) {
-            case "ReglaFranjaHoraria": regla = reglaFranjaHoraria.mapRow(resultSet, rowNum); break;
-            case "ReglaDiaFeriado": regla = reglaDiaFeriado.mapRow(resultSet, rowNum); break;
-            case "ReglaDiaDeLaSemanaNoHabil": regla = reglaDiaSemanaNoHabil.mapRow(resultSet, rowNum); break;
-            default: throw new IllegalArgumentException("Un valor para la columna \"tipo\" no esta presente para el registro.");
-        }       
-        
+        switch (resultSet.getString("tipo")) {
+            case "ReglaFranjaHoraria":
+                regla = reglaFranjaHoraria.mapRow(resultSet, rowNum);
+                break;
+            case "ReglaDiaFeriado":
+                regla = reglaDiaFeriado.mapRow(resultSet, rowNum);
+                break;
+            case "ReglaDiaDeLaSemanaNoHabil":
+                regla = reglaDiaSemanaNoHabil.mapRow(resultSet, rowNum);
+                break;
+            default:
+                throw new IllegalArgumentException(MENSAJE_VALOR_PARA_COLUMNA_TIPO_NO_ESTA_PRESENTE);
+        }
+
         return regla;
     }
 
@@ -84,34 +105,11 @@ public class MapeoReglaAgendamiento implements RowMapper<ReglaAgendamiento> {
         public ReglaAgendamiento mapRow(ResultSet resultSet, int rowNum) throws SQLException {
             String diaTexto = resultSet.getString("dia_semana");
 
-            DayOfWeek dia;
-            switch (diaTexto) {
-                case "LUNES":
-                    dia = DayOfWeek.MONDAY;
-                    break;
-                case "MARTES":
-                    dia = DayOfWeek.MONDAY;
-                    break;
-                case "MIERCOLES":
-                    dia = DayOfWeek.MONDAY;
-                    break;
-                case "JUEVES":
-                    dia = DayOfWeek.MONDAY;
-                    break;
-                case "VIERNES":
-                    dia = DayOfWeek.MONDAY;
-                    break;
-                case "SABADO":
-                    dia = DayOfWeek.MONDAY;
-                    break;
-                case "DOMINGO":
-                    dia = DayOfWeek.MONDAY;
-                    break;
-                default:
-                    throw new ExcepcionFormatoValorInvalido("dia_semana");
+            if (DIAS_DE_LA_SEMANA.containsKey(diaTexto)) {
+                throw new ExcepcionFormatoValorInvalido("dia_semana");
             }
 
-            return new ReglaDiaDeLaSemanaNoHabil(dia);
+            return new ReglaDiaDeLaSemanaNoHabil(DIAS_DE_LA_SEMANA.get(diaTexto));
         }
 
     }
