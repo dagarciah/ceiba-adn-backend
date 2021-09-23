@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 
+import com.ceiba.agendamiento.excepcion.ExcepcionFechaAgendamientoNoValida;
 import com.ceiba.agendamiento.excepcion.ExcepcionFormatoValorInvalido;
 import com.ceiba.agendamiento.validacion.ReglaAgendamiento;
 import com.ceiba.agendamiento.validacion.ReglaDiaDeLaSemanaNoHabil;
@@ -69,6 +70,7 @@ public class MapeoReglaAgendamientoTest {
 
         Assert.assertNotNull(regla);
         Assert.assertFalse(validacion.isValida());
+        Assert.assertThrows(ExcepcionFechaAgendamientoNoValida.class, validacion::lanzarError);
     }
 
     @Test
@@ -144,6 +146,7 @@ public class MapeoReglaAgendamientoTest {
 
         Assert.assertNotNull(regla);
         Assert.assertFalse(validacion.isValida());
+        Assert.assertThrows(ExcepcionFechaAgendamientoNoValida.class, validacion::lanzarError);
     }
 
 }

@@ -14,6 +14,7 @@ import com.ceiba.agendamiento.validacion.ReglaDiaFeriado;
 import com.ceiba.agendamiento.validacion.ReglaFranjaHoraria;
 import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ServicioValidacionFechaAgendamientoTest {
@@ -52,7 +53,15 @@ public class ServicioValidacionFechaAgendamientoTest {
 
         LocalDateTime fechaHoraCreacion = LocalDateTime.now();
         LocalDateTime fechaHoraAgendamiento = fechaHoraCreacion.plusDays(2);
-        subject.validar(fechaHoraCreacion, fechaHoraAgendamiento);
+        
+        Exception excepcion = null;
+        try {
+            subject.validar(fechaHoraCreacion, fechaHoraAgendamiento);
+        } catch (Exception e) {
+            excepcion = e;
+        }
+
+        Assert.assertNull(excepcion);
     }
 
     @Test
@@ -65,6 +74,15 @@ public class ServicioValidacionFechaAgendamientoTest {
         LocalDateTime fechaHoraAgendamiento = fechaHoraCreacion.plusDays(1);
 
         subject.validar(fechaHoraCreacion, fechaHoraAgendamiento);
+
+        Exception excepcion = null;
+        try {
+            subject.validar(fechaHoraCreacion, fechaHoraAgendamiento);
+        } catch (Exception e) {
+            excepcion = e;
+        }
+
+        Assert.assertNull(excepcion);
     }
 
     @Test
