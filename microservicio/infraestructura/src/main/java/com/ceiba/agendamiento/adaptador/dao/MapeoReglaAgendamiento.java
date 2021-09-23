@@ -105,7 +105,7 @@ public class MapeoReglaAgendamiento implements RowMapper<ReglaAgendamiento> {
         public ReglaAgendamiento mapRow(ResultSet resultSet, int rowNum) throws SQLException {
             String diaTexto = resultSet.getString("dia_semana");
 
-            if (DIAS_DE_LA_SEMANA.containsKey(diaTexto)) {
+            if (!DIAS_DE_LA_SEMANA.containsKey(diaTexto)) {
                 throw new ExcepcionFormatoValorInvalido("dia_semana");
             }
 

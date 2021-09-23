@@ -5,9 +5,11 @@ import static org.mockito.Mockito.when;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 
 import com.ceiba.agendamiento.excepcion.ExcepcionFormatoValorInvalido;
 import com.ceiba.agendamiento.validacion.ReglaAgendamiento;
@@ -81,50 +83,44 @@ public class MapeoReglaAgendamientoTest {
 
     @Test
     public void exitoso_cuando_deserializa_dia_semana_lunes() throws SQLException {
-        deserializar_dia_semana_exitosamente("LUNES");
+        LocalDateTime esperado = LocalDateTime.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        deserializar_dia_semana_exitosamente("LUNES", esperado);
     }
 
     @Test
     public void exitoso_cuando_deserializa_dia_semana_martes() throws SQLException {
-        deserializar_dia_semana_exitosamente("MARTES");
+        LocalDateTime esperado = LocalDateTime.now().with(TemporalAdjusters.next(DayOfWeek.TUESDAY));
+        deserializar_dia_semana_exitosamente("MARTES", esperado);
     }
 
     @Test
     public void exitoso_cuando_deserializa_dia_semana_miercoles() throws SQLException {
-        deserializar_dia_semana_exitosamente("MIERCOLES");
+        LocalDateTime esperado = LocalDateTime.now().with(TemporalAdjusters.next(DayOfWeek.WEDNESDAY));
+        deserializar_dia_semana_exitosamente("MIERCOLES", esperado);
     }
 
     @Test
     public void exitoso_cuando_deserializa_dia_semana_jueves() throws SQLException {
-        deserializar_dia_semana_exitosamente("JUEVES");
+        LocalDateTime esperado = LocalDateTime.now().with(TemporalAdjusters.next(DayOfWeek.THURSDAY));
+        deserializar_dia_semana_exitosamente("JUEVES", esperado);
     }
 
     @Test
     public void exitoso_cuando_deserializa_dia_semana_viernes() throws SQLException {
-        deserializar_dia_semana_exitosamente("VIERNES");
+        LocalDateTime esperado = LocalDateTime.now().with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+        deserializar_dia_semana_exitosamente("VIERNES", esperado);
     }
 
     @Test
     public void exitoso_cuando_deserializa_dia_semana_sabado() throws SQLException {
-        deserializar_dia_semana_exitosamente("SABADO");
+        LocalDateTime esperado = LocalDateTime.now().with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+        deserializar_dia_semana_exitosamente("SABADO", esperado);
     }
 
     @Test
     public void exitoso_cuando_deserializa_dia_semana_domingo() throws SQLException {
-        deserializar_dia_semana_exitosamente("DOMINGO");
-    }
-
-    private void deserializar_dia_semana_exitosamente(String dia) throws SQLException {
-        ResultSet result = mock(ResultSet.class);
-        when(result.getString("tipo")).thenReturn(ReglaDiaDeLaSemanaNoHabil.class.getSimpleName());
-        when(result.getString("dia_semana")).thenReturn(dia);
-
-        ReglaAgendamiento regla = subject.mapRow(result, 1);
-
-        ValidacionRegla validacion = regla.validar(LocalDateTime.of(2021, 10, 18, 0, 0));
-
-        Assert.assertNotNull(regla);
-        Assert.assertFalse(validacion.isValida());
+        LocalDateTime esperado = LocalDateTime.now().with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+        deserializar_dia_semana_exitosamente("DOMINGO", esperado);
     }
 
     @Test
@@ -133,8 +129,21 @@ public class MapeoReglaAgendamientoTest {
         when(result.getString("tipo")).thenReturn(ReglaDiaDeLaSemanaNoHabil.class.getSimpleName());
         when(result.getString("dia_semana")).thenReturn("MONDAY");
 
-        Assert.assertThrows("El campo \"hora_inicial\" u \"hora_final\" contiene un valor no valido.", ExcepcionFormatoValorInvalido.class,
-                () -> subject.mapRow(result, 1));
+        Assert.assertThrows("El campo \"hora_inicial\" u \"hora_final\" contiene un valor no valido.",
+                ExcepcionFormatoValorInvalido.class, () -> subject.mapRow(result, 1));
+    }
+
+    private void deserializar_dia_semana_exitosamente(String dia, LocalDateTime diaValidacion) throws SQLException {
+        ResultSet result = mock(ResultSet.class);
+        when(result.getString("tipo")).thenReturn(ReglaDiaDeLaSemanaNoHabil.class.getSimpleName());
+        when(result.getString("dia_semana")).thenReturn(dia);
+
+        ReglaAgendamiento regla = subject.mapRow(result, 1);
+
+        ValidacionRegla validacion = regla.validar(diaValidacion);
+
+        Assert.assertNotNull(regla);
+        Assert.assertFalse(validacion.isValida());
     }
 
 }
