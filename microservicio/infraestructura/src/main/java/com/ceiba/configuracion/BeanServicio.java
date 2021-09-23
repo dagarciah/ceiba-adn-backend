@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import com.ceiba.agendamiento.puerto.dao.DaoReglaAgendamiento;
 import com.ceiba.agendamiento.puerto.repositorio.RepositorioAgendamiento;
+import com.ceiba.agendamiento.servicio.ServicioActualizarEstadoAgendamiento;
 import com.ceiba.agendamiento.servicio.ServicioCrearAgendamiento;
 import com.ceiba.agendamiento.servicio.ServicioValidadorFechaAgendamiento;
 import com.ceiba.usuario.puerto.repositorio.RepositorioUsuario;
@@ -41,6 +42,11 @@ public class BeanServicio {
     @Bean
     public ServicioCrearAgendamiento servicioProgramarDesayuno(RepositorioAgendamiento repositorio) {
         return new ServicioCrearAgendamiento(repositorio);
+    }
+
+    @Bean
+    public ServicioActualizarEstadoAgendamiento servicioActualizarEstadoAgendamiento(RepositorioAgendamiento repositorio) {
+        return new ServicioActualizarEstadoAgendamiento(repositorio);
     }
 
 }

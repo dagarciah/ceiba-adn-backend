@@ -49,18 +49,18 @@ pipeline {
     stage('Clean') {
       steps{
         echo "------------>Clean<------------"
-        sh 'chmod +x ./microservicio/gradlew'
-        sh './microservicio/gradlew --b ./microservicio/build.gradle clean'
+        sh 'chmod +x ./gradlew'
+        sh './gradlew --b ./microservicio/build.gradle clean'
       }
     }
 
     stage('Compile & Unit Tests') {
       steps{
         echo "------------>Compile & Unit Tests<------------"
-        sh 'chmod +x ./microservicio/gradlew'
-        sh './microservicio/gradlew --b ./microservicio/build.gradle clean'
-        sh './microservicio/gradlew --b ./microservicio/build.gradle test'
-        sh './microservicio/gradlew --b ./microservicio/build.gradle jacocoTestReport'
+        sh 'chmod +x ./gradlew'
+        sh './gradlew --b ./microservicio/build.gradle clean'
+        sh './gradlew --b ./microservicio/build.gradle test'
+        sh './gradlew --b ./microservicio/build.gradle jacocoTestReport'
       }
     }
 
@@ -76,9 +76,9 @@ sh "${tool name: 'SonarScanner', type:'hudson.plugins.sonar.SonarRunnerInstallat
     stage('Build') {
       steps {
         echo "------------>Build<------------"
-        sh 'chmod +x ./microservicio/gradlew'
-        sh './microservicio/gradlew --b ./microservicio/build.gradle clean'
-        sh './microservicio/gradlew --b ./microservicio/build.gradle build'
+        sh 'chmod +x ./gradlew'
+        sh './gradlew --b ./microservicio/build.gradle clean'
+        sh './gradlew --b ./microservicio/build.gradle build'
       }
     }
   }

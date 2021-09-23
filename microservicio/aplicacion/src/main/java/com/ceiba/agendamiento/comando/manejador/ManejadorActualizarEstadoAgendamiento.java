@@ -3,10 +3,12 @@ package com.ceiba.agendamiento.comando.manejador;
 import com.ceiba.ComandoRespuesta;
 import com.ceiba.agendamiento.comando.ComandoActualizarEstadoAgendamiento;
 import com.ceiba.agendamiento.modelo.dto.EstadoAgendamientoDto;
-import com.ceiba.agendamiento.modelo.entidad.EstadoAgendamiento;
 import com.ceiba.agendamiento.servicio.ServicioActualizarEstadoAgendamiento;
 import com.ceiba.manejador.ManejadorComandoRespuesta;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ManejadorActualizarEstadoAgendamiento implements ManejadorComandoRespuesta<ComandoActualizarEstadoAgendamiento, ComandoRespuesta<EstadoAgendamientoDto>>{
 
     private final ServicioActualizarEstadoAgendamiento actualizadorEstado;

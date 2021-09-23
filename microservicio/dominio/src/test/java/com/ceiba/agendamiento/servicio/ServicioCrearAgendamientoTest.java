@@ -46,7 +46,7 @@ public class ServicioCrearAgendamientoTest {
         // assert 
         Assert.assertNotNull(resultado);
         Assert.assertFalse(resultado.getCodigo().isEmpty());
-        Assert.assertEquals(resultado.getEstados().get(0), EstadoAgendamiento.Pendiente.name());
+        Assert.assertEquals(resultado.getEstados().get(0).getNombre(), EstadoAgendamiento.Pendiente.name());
     }
   
 }
