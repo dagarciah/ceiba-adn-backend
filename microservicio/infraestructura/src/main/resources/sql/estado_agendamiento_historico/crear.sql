@@ -1,0 +1,1 @@
+insert into estado_agendamiento_historico (creacion, nombre, agendamiento_id) values (:creacion, :nombre, :agendamientoId)

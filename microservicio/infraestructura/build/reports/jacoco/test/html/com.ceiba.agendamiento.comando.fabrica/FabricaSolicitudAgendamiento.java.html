@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FabricaSolicitudAgendamiento.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">infraestructura</a> &gt; <a href="index.source.html" class="el_package">com.ceiba.agendamiento.comando.fabrica</a> &gt; <span class="el_source">FabricaSolicitudAgendamiento.java</span></div><h1>FabricaSolicitudAgendamiento.java</h1><pre class="source lang-java linenums">package com.ceiba.agendamiento.comando.fabrica;
+
+import java.time.LocalDateTime;
+
+import com.ceiba.agendamiento.comando.ComandoSolicitudAgendamiento;
+import com.ceiba.agendamiento.modelo.SolicitudAgendamiento;
+import com.ceiba.agendamiento.servicio.ServicioValidadorFechaAgendamiento;
+import com.ceiba.desayuno.modelo.entidad.DesayunoId;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class FabricaSolicitudAgendamiento {
+    
+    private final ServicioValidadorFechaAgendamiento validador;
+
+<span class="fc" id="L17">    public FabricaSolicitudAgendamiento(ServicioValidadorFechaAgendamiento validador) {</span>
+<span class="fc" id="L18">        this.validador = validador;</span>
+<span class="fc" id="L19">    }</span>
+
+    public SolicitudAgendamiento crear(ComandoSolicitudAgendamiento comando) {
+<span class="nc" id="L22">        validador.validarPlazoMinimo(LocalDateTime.now(), comando.getFecha());</span>
+<span class="nc" id="L23">        return new SolicitudAgendamiento(DesayunoId.de(comando.getDesayuno()), comando.getFecha());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

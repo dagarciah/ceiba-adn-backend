@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DaoReglaAgendamientoSql.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">infraestructura</a> &gt; <a href="index.source.html" class="el_package">com.ceiba.agendamiento.adaptador.dao</a> &gt; <span class="el_source">DaoReglaAgendamientoSql.java</span></div><h1>DaoReglaAgendamientoSql.java</h1><pre class="source lang-java linenums">package com.ceiba.agendamiento.adaptador.dao;
+
+import com.ceiba.agendamiento.validacion.ReglaAgendamiento;
+
+import java.util.List;
+
+import com.ceiba.agendamiento.puerto.DaoReglaAgendamiento;
+import com.ceiba.infraestructura.jdbc.CustomNamedParameterJdbcTemplate;
+import com.ceiba.infraestructura.jdbc.sqlstatement.SqlStatement;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class DaoReglaAgendamientoSql implements DaoReglaAgendamiento {
+    private final CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate;
+
+    @SqlStatement(namespace=&quot;agendamiento&quot;, value=&quot;listar&quot;)
+    private static String sqlListar;
+
+<span class="fc" id="L20">    public DaoReglaAgendamientoSql(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate) {</span>
+<span class="fc" id="L21">        this.customNamedParameterJdbcTemplate = customNamedParameterJdbcTemplate;</span>
+<span class="fc" id="L22">    }</span>
+   
+    @Override
+    public List&lt;ReglaAgendamiento&gt; listar() {
+<span class="nc" id="L26">        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().query(sqlListar, new MapeoReglaAgendamiento());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

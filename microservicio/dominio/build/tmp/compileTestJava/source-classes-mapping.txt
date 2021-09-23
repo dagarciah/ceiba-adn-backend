@@ -1,0 +1,15 @@
+com/ceiba/usuario/servicio/testdatabuilder/UsuarioTestDataBuilder.java
+ com.ceiba.usuario.servicio.testdatabuilder.UsuarioTestDataBuilder
+com/ceiba/agendamiento/servicio/testdatabuilder/SolicitudAgendamientoTestDataBuilder.java
+ com.ceiba.agendamiento.servicio.testdatabuilder.SolicitudAgendamientoTestDataBuilder
+com/ceiba/usuario/servicio/ServicioActualizarUsuarioTest.java
+ com.ceiba.usuario.servicio.ServicioActualizarUsuarioTest
+com/ceiba/usuario/servicio/ServicioCrearUsuarioTest.java
+ com.ceiba.usuario.servicio.ServicioCrearUsuarioTest
+com/ceiba/agendamiento/servicio/ServicioProgramarDesayunoTest.java
+ com.ceiba.agendamiento.servicio.ServicioProgramarDesayunoTest
+com/ceiba/BasePrueba.java
+ com.ceiba.BasePrueba
+ com.ceiba.BasePrueba$Thunk
+com/ceiba/agendamiento/servicio/ServicioValidacionFechaAgendamientoTest.java
+ com.ceiba.agendamiento.servicio.ServicioValidacionFechaAgendamientoTest
