@@ -5,7 +5,7 @@ import com.ceiba.dominio.ValidadorArgumento;
 import lombok.Getter;
 
 @Getter
-public class DesayunoId {
+public final class DesayunoId {
     private final Long valor;
 
     private DesayunoId(Long valor) {

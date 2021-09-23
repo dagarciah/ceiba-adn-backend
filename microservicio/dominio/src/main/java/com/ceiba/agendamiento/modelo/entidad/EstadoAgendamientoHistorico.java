@@ -34,7 +34,7 @@ public class EstadoAgendamientoHistorico {
     }
 
     public static EstadoAgendamientoHistorico pendiente(Long agendamientoId) {
-        return new EstadoAgendamientoHistorico(null, agendamientoId, LocalDateTime.now(), EstadoAgendamiento.Pendiente); 
+        return new EstadoAgendamientoHistorico(null, agendamientoId, LocalDateTime.now(), EstadoAgendamiento.PENDIENTE); 
     }
 
     public boolean esCancelable() {

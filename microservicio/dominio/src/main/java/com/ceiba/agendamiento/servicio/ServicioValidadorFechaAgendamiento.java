@@ -2,6 +2,7 @@ package com.ceiba.agendamiento.servicio;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -16,7 +17,7 @@ public class ServicioValidadorFechaAgendamiento {
     private final List<ReglaAgendamiento> reglas;
 
     public ServicioValidadorFechaAgendamiento(List<ReglaAgendamiento> reglas) {
-        this.reglas = reglas;
+        this.reglas = new ArrayList<>(reglas);
     }
 
     public void validar(LocalDateTime fechaHoraCreacion, LocalDateTime fechaHoraAgendamiento) {

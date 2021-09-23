@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 import lombok.Getter;
 
-public class ValidacionRegla {
+public final class ValidacionRegla {
     @Getter
     private final boolean valida;
     private final Supplier<RuntimeException> error;

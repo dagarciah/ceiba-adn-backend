@@ -1,34 +1,34 @@
 package com.ceiba.agendamiento.modelo.entidad;
 
 public enum EstadoAgendamiento {
-    Pendiente {
+    PENDIENTE {
         public EstadoAgendamiento siguiente() {
-            return Alistamiento;
+            return ALISTAMIENTO;
         }
 
         public boolean esCancelable() {
             return true;
         }
     },
-    Alistamiento {
+    ALISTAMIENTO {
         public EstadoAgendamiento siguiente() {
-            return Despachado;
+            return DESPACHADO;
         }
 
         public boolean esCancelable() {
             return false;
         }
     },
-    Despachado {
+    DESPACHADO {
         public EstadoAgendamiento siguiente() {
-            return Entregado;
+            return ENTREGADO;
         }
 
         public boolean esCancelable() {
             return false;
         }
     },
-    Entregado {
+    ENTREGADO {
         public EstadoAgendamiento siguiente() {
             return this;
         }
@@ -37,7 +37,7 @@ public enum EstadoAgendamiento {
             return false;
         }
     },
-    Cancelado {
+    CANCELADO {
         public EstadoAgendamiento siguiente() {
             return this;
         }

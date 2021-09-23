@@ -40,7 +40,7 @@ public class ComandoControladorAgendamientoTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(solicitud)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.valor.estados[0].nombre", is("Pendiente")))
+                .andExpect(jsonPath("$.valor.estados[0].nombre", is("PENDIENTE")))
                 .andExpect(jsonPath("$.valor.codigo", IsNull.notNullValue()));
     }
 }

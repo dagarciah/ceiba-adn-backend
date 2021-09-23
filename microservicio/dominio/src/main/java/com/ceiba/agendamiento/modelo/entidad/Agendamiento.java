@@ -49,9 +49,9 @@ public class Agendamiento {
     }
 
     public EstadoAgendamientoHistorico siguiente(EstadoAgendamiento nuevoEstado) {
-        if (Objects.equals(EstadoAgendamiento.Cancelado, nuevoEstado)) {
+        if (Objects.equals(EstadoAgendamiento.CANCELADO, nuevoEstado)) {
             if (!this.estadoActual.esCancelable()) {
-                throw new ExcepcionEstadoAgendamientoNoValido(id, EstadoAgendamiento.Cancelado);
+                throw new ExcepcionEstadoAgendamientoNoValido(id, EstadoAgendamiento.CANCELADO);
             }
     
             this.estadoActual = new EstadoAgendamientoHistorico(null, id, LocalDateTime.now(), nuevoEstado);
@@ -71,11 +71,11 @@ public class Agendamiento {
     }
 
     public AgendamientoDto aDto() {
-        List<EstadoAgendamientoDto> estados = this.estados.stream()
+        List<EstadoAgendamientoDto> estadosDto = this.estados.stream()
                 .sorted(Comparator.comparing(EstadoAgendamientoHistorico::getCreacion))
                 .map(e -> EstadoAgendamientoDto.builder().nombre(e.getNombre()).fechaCambio(e.getCreacion()).build())
                 .collect(Collectors.toList());
 
-        return AgendamientoDto.builder().id(id).codigo(codigo).programacion(programacion).estados(estados).build();
+        return AgendamientoDto.builder().id(id).codigo(codigo).programacion(programacion).estados(estadosDto).build();
     }
 }

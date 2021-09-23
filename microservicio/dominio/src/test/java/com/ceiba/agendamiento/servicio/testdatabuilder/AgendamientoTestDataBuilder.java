@@ -21,7 +21,7 @@ public class AgendamientoTestDataBuilder {
         this.codigo = "ABC123DE";
         this.desayunoId = 1L;
         this.programacion = LocalDateTime.now().plusDays(2);
-        this.estados.add(new EstadoAgendamientoHistorico(1L, this.id, LocalDateTime.now(), EstadoAgendamiento.Pendiente));
+        this.estados.add(new EstadoAgendamientoHistorico(1L, this.id, LocalDateTime.now(), EstadoAgendamiento.PENDIENTE));
     }
 
     public static AgendamientoTestDataBuilder builder() {

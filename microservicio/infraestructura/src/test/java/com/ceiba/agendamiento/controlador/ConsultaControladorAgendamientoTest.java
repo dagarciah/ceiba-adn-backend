@@ -35,7 +35,7 @@ public class ConsultaControladorAgendamientoTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].codigo", is("ABC123DE")))
-                .andExpect(jsonPath("$[0].estadoActual.nombre", is("Alistamiento")));
+                .andExpect(jsonPath("$[0].estadoActual.nombre", is("ALISTAMIENTO")));
     }
 
 

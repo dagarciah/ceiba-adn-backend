@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import com.ceiba.dominio.ValidadorArgumento;
 
-public class FranjaHoraria {
+public final class FranjaHoraria {
 
     private static final DateTimeFormatter FORMATEADOR_TIEMPO = DateTimeFormatter.ofPattern("hh:mm a");
 
