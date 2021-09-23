@@ -32,7 +32,7 @@ allprojects {
 	project.ext.junit5 = ["org.junit.jupiter:junit-jupiter-api:5.3.1"]
 	project.ext.junit4 = ["junit:junit:4.12"]
 	project.ext.mockito = ['org.mockito:mockito-all:1.10.19']
-	project.ext.lombok = ["org.projectlombok:lombok:1.18.16"]
+	project.ext.lombok = ["org.projectlombok:lombok:1.18.10"]
 	
 	project.ext.springboottest = ["org.springframework.boot:spring-boot-starter-test:${springBootVersion}"]
 	project.ext.springbootweb = ["org.springframework.boot:spring-boot-starter-web:${springBootVersion}"]

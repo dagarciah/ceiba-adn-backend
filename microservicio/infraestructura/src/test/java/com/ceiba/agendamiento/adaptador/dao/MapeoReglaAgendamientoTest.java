@@ -9,12 +9,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import com.ceiba.agendamiento.excepcion.ExcepcionFormatoValorInvalido;
 import com.ceiba.agendamiento.validacion.ReglaAgendamiento;
 import com.ceiba.agendamiento.validacion.ReglaDiaDeLaSemanaNoHabil;
 import com.ceiba.agendamiento.validacion.ReglaDiaFeriado;
 import com.ceiba.agendamiento.validacion.ReglaFranjaHoraria;
 import com.ceiba.agendamiento.validacion.ValidacionRegla;
-import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -51,7 +51,7 @@ public class MapeoReglaAgendamientoTest {
         when(result.getString("hora_inicial")).thenReturn("23:50");
         when(result.getString("hora_final")).thenReturn("12:00 PM");
 
-        Assert.assertThrows("El registro posee un formato de hora invalido", ExcepcionValorInvalido.class,
+        Assert.assertThrows("El campo \"dia_semana\" contiene un valor no valido.", ExcepcionFormatoValorInvalido.class,
                 () -> subject.mapRow(result, 1));
     }
 
@@ -75,7 +75,7 @@ public class MapeoReglaAgendamientoTest {
         when(result.getString("tipo")).thenReturn(ReglaDiaFeriado.class.getSimpleName());
         when(result.getString("fecha")).thenReturn("2021/10/18");
 
-        Assert.assertThrows("El registro posee un formato de hora invalido", ExcepcionValorInvalido.class,
+        Assert.assertThrows("El campo \"fecha\" contiene un valor no valido.", ExcepcionFormatoValorInvalido.class,
                 () -> subject.mapRow(result, 1));
     }
 
@@ -99,7 +99,7 @@ public class MapeoReglaAgendamientoTest {
         when(result.getString("tipo")).thenReturn(ReglaDiaDeLaSemanaNoHabil.class.getSimpleName());
         when(result.getString("dia_semana")).thenReturn("MONDAY");
 
-        Assert.assertThrows("El registro posee un formato de hora invalido", ExcepcionValorInvalido.class,
+        Assert.assertThrows("El campo \"hora_inicial\" u \"hora_final\" contiene un valor no valido.", ExcepcionFormatoValorInvalido.class,
                 () -> subject.mapRow(result, 1));
     }
 

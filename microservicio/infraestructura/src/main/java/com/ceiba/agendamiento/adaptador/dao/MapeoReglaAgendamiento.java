@@ -8,14 +8,14 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import com.ceiba.agendamiento.excepcion.ExcepcionFormatoValorInvalido;
 import com.ceiba.agendamiento.modelo.entidad.FranjaHoraria;
 import com.ceiba.agendamiento.validacion.ReglaAgendamiento;
 import com.ceiba.agendamiento.validacion.ReglaDiaDeLaSemanaNoHabil;
 import com.ceiba.agendamiento.validacion.ReglaDiaFeriado;
 import com.ceiba.agendamiento.validacion.ReglaFranjaHoraria;
-import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
-import com.ceiba.dominio.excepcion.ExcepcionValorObligatorio;
 import com.ceiba.infraestructura.jdbc.MapperResult;
+
 import org.springframework.jdbc.core.RowMapper;
 
 public class MapeoReglaAgendamiento implements RowMapper<ReglaAgendamiento> {
@@ -35,7 +35,7 @@ public class MapeoReglaAgendamiento implements RowMapper<ReglaAgendamiento> {
             case "ReglaFranjaHoraria": regla = reglaFranjaHoraria.mapRow(resultSet, rowNum); break;
             case "ReglaDiaFeriado": regla = reglaDiaFeriado.mapRow(resultSet, rowNum); break;
             case "ReglaDiaDeLaSemanaNoHabil": regla = reglaDiaSemanaNoHabil.mapRow(resultSet, rowNum); break;
-            default: throw new ExcepcionValorObligatorio("Un valor para la columna \"tipo\" no esta presente para el registro.");
+            default: throw new IllegalArgumentException("Un valor para la columna \"tipo\" no esta presente para el registro.");
         }       
         
         return regla;
@@ -55,7 +55,7 @@ public class MapeoReglaAgendamiento implements RowMapper<ReglaAgendamiento> {
 
                 return new ReglaFranjaHoraria(FranjaHoraria.con(horaInicial, horaFinal));
             } catch (DateTimeParseException exception) {
-                throw new ExcepcionValorInvalido("El registro posee un formato de hora invalido");
+                throw new ExcepcionFormatoValorInvalido("hora_inicial\" u \"hora_final");
             }
         }
     }
@@ -72,7 +72,7 @@ public class MapeoReglaAgendamiento implements RowMapper<ReglaAgendamiento> {
 
                 return new ReglaDiaFeriado(fecha);
             } catch (DateTimeParseException exception) {
-                throw new ExcepcionValorInvalido("El registro posee un formato de fecha invalido");
+                throw new ExcepcionFormatoValorInvalido("fecha");
             }
         }
 
@@ -108,7 +108,7 @@ public class MapeoReglaAgendamiento implements RowMapper<ReglaAgendamiento> {
                     dia = DayOfWeek.MONDAY;
                     break;
                 default:
-                    throw new ExcepcionValorInvalido("El registro posee un formato de dia invalido");
+                    throw new ExcepcionFormatoValorInvalido("dia_semana");
             }
 
             return new ReglaDiaDeLaSemanaNoHabil(dia);

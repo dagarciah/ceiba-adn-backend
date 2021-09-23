@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.ceiba.agendamiento.consulta.ManejadoDetalleAgendamiento;
+import com.ceiba.agendamiento.consulta.ManejadorDetalleAgendamiento;
 import com.ceiba.agendamiento.consulta.ManejadorListarAgendamiento;
 import com.ceiba.agendamiento.modelo.dto.AgendamientoDto;
 
@@ -22,10 +22,10 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = { "Controlador consulta agendamiento" })
 public class ConsultaControladorAgendamiento {
     private final ManejadorListarAgendamiento manejadorListarAgendamiento;
-    private final ManejadoDetalleAgendamiento manejadoDetalleAgendamiento;
+    private final ManejadorDetalleAgendamiento manejadoDetalleAgendamiento;
 
     public ConsultaControladorAgendamiento(ManejadorListarAgendamiento manejadorListarAgendamiento,
-            ManejadoDetalleAgendamiento manejadoDetalleAgendamiento) {
+            ManejadorDetalleAgendamiento manejadoDetalleAgendamiento) {
         this.manejadorListarAgendamiento = manejadorListarAgendamiento;
         this.manejadoDetalleAgendamiento = manejadoDetalleAgendamiento;
     }

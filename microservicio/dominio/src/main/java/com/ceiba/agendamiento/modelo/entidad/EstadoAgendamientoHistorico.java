@@ -22,7 +22,7 @@ public class EstadoAgendamientoHistorico {
     private EstadoAgendamiento estado;
 
     @Builder
-    EstadoAgendamientoHistorico(Long id, Long agendamientoId, LocalDateTime creacion, EstadoAgendamiento estado) {
+    public EstadoAgendamientoHistorico(Long id, Long agendamientoId, LocalDateTime creacion, EstadoAgendamiento estado) {
         ValidadorArgumento.validarObligatorio(agendamientoId, "El identificador de agendamiento es obligatorio.");
         ValidadorArgumento.validarObligatorio(creacion, "La fecha de creacion del estado es obligatoria.");
         ValidadorArgumento.validarObligatorio(estado, "El tipo de estado es obligatorio.");
