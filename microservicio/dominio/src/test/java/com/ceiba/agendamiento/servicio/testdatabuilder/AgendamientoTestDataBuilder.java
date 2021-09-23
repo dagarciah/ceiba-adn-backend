@@ -53,6 +53,11 @@ public class AgendamientoTestDataBuilder {
         return this;
     }
 
+    public AgendamientoTestDataBuilder conEstados(List<EstadoAgendamientoHistorico> estados) {
+        this.estados = estados;
+        return this;
+    }
+
     public Agendamiento build() {
         return Agendamiento.builder()
                 .id(id)
