@@ -3,7 +3,9 @@ package com.ceiba.agendamiento.modelo.dto;
 import static com.ceiba.dominio.ValidadorArgumento.validarObligatorio;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +29,7 @@ public class AgendamientoDto {
         this.desayunoId = desayunoId;
         this.codigo = codigo;
         this.programacion = programacion;
-        this.estados = new ArrayList<>(estados);
+        this.estados = Optional.ofNullable(estados).map(ArrayList::new).orElseGet(ArrayList::new);
         this.estadoActual = estadoActual;
     }
 
