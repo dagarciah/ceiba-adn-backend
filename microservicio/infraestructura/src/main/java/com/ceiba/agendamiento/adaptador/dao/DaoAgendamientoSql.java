@@ -10,7 +10,7 @@ import com.ceiba.agendamiento.modelo.dto.AgendamientoDto;
 import com.ceiba.agendamiento.modelo.dto.EstadoAgendamientoDto;
 import com.ceiba.agendamiento.modelo.entidad.FlujoEstadoAgendamiento;
 import com.ceiba.agendamiento.puerto.dao.DaoAgendamiento;
-import com.ceiba.dominio.excepcion.ExcepcionSinDatos;
+import com.ceiba.agendamiento.puerto.excepcion.AgendamientoNoEncontrado;
 import com.ceiba.infraestructura.jdbc.CustomNamedParameterJdbcTemplate;
 import com.ceiba.infraestructura.jdbc.sqlstatement.SqlStatement;
 
@@ -53,7 +53,7 @@ public class DaoAgendamientoSql implements DaoAgendamiento {
 
             assert Objects.nonNull(agendamiento);
         } catch (EmptyResultDataAccessException excepcion) {
-            throw new ExcepcionSinDatos("Agendamiento con codigo " + codigo + " no encontrado.");
+            throw new AgendamientoNoEncontrado(codigo);
         }
 
         List<EstadoAgendamientoDto> estados = this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate()
