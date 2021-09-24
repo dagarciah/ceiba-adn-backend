@@ -53,7 +53,7 @@ public class DaoAgendamientoSql implements DaoAgendamiento {
 
             assert Objects.nonNull(agendamiento);
         } catch (EmptyResultDataAccessException excepcion) {
-            throw new AgendamientoNoEncontrado(codigo);
+            throw new AgendamientoNoEncontrado(excepcion, codigo);
         }
 
         List<EstadoAgendamientoDto> estados = this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate()

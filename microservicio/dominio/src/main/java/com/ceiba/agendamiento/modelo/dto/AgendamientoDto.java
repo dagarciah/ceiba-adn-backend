@@ -27,7 +27,7 @@ public class AgendamientoDto {
         this.desayunoId = desayunoId;
         this.codigo = codigo;
         this.programacion = programacion;
-        this.estados = estados;
+        this.estados = new ArrayList<>(estados);
         this.estadoActual = estadoActual;
     }
 

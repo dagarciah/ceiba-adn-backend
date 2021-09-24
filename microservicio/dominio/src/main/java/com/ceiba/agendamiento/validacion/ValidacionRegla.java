@@ -25,6 +25,7 @@ public final class ValidacionRegla {
         return new ValidacionRegla(true, () -> new RuntimeException("No se esperaba un error."));
     }
 
+    @SuppressWarnings("common-java:InsufficientBranchCoverage")
     public void lanzarError() {
         if (!valida) {
             throw proveedorError.get();
