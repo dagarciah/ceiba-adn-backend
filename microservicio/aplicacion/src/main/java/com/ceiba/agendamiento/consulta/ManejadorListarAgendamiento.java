@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ceiba.agendamiento.modelo.dto.AgendamientoDto;
-import com.ceiba.agendamiento.modelo.entidad.EstadoAgendamiento;
+import com.ceiba.agendamiento.modelo.entidad.FlujoEstadoAgendamiento;
 import com.ceiba.agendamiento.puerto.dao.DaoAgendamiento;
 
 import org.springframework.stereotype.Component;
@@ -20,14 +20,14 @@ public class ManejadorListarAgendamiento {
     }
 
     public List<AgendamientoDto> ejecutar(List<String> estados) {
-        List<EstadoAgendamiento> estadosEnum = estados.stream().peek(e -> {
+        List<FlujoEstadoAgendamiento> estadosEnum = estados.stream().peek(e -> {
             if (!e.matches("^(Pendiente|Alistamiento|Despachado|Entregado|Cancelado)$")) {
                 throw new IllegalArgumentException("Ha filtrado por un estado de agendamiento no valido.");
             }
-        }).map(EstadoAgendamiento::valueOf).collect(Collectors.toList());
+        }).map(FlujoEstadoAgendamiento::valueOf).collect(Collectors.toList());
 
         if (estadosEnum.isEmpty()) {
-            estadosEnum = Arrays.asList(EstadoAgendamiento.values());
+            estadosEnum = Arrays.asList(FlujoEstadoAgendamiento.values());
         }
 
         return dao.listar(estadosEnum);

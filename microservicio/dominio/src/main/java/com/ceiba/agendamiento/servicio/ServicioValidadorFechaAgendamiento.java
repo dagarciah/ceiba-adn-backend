@@ -1,5 +1,7 @@
 package com.ceiba.agendamiento.servicio;
 
+import static com.ceiba.dominio.ValidadorArgumento.validarObligatorio;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,6 +23,9 @@ public class ServicioValidadorFechaAgendamiento {
     }
 
     public void validar(LocalDateTime fechaHoraCreacion, LocalDateTime fechaHoraAgendamiento) {
+        validarObligatorio(fechaHoraCreacion, "La fecha de creacion del agendamiento es obligatoria.");
+        validarObligatorio(fechaHoraAgendamiento, "La fecha de programacion del agendamiento es obligatoria.");
+
         LocalDate fechaCreacion = fechaHoraCreacion.toLocalDate();
         validarFechaCreacionNoSeaPasado(fechaCreacion);
         validarFechaAgendamientoMinimoUnDiaDespuesCreacion(fechaHoraCreacion, fechaHoraAgendamiento);

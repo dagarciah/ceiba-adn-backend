@@ -5,9 +5,9 @@ import com.ceiba.agendamiento.comando.ComandoActualizarEstadoAgendamiento;
 import com.ceiba.agendamiento.comando.ComandoSolicitudAgendamiento;
 import com.ceiba.agendamiento.comando.manejador.ManejadorActualizarEstadoAgendamiento;
 import com.ceiba.agendamiento.comando.manejador.ManejadorCrearAgendamiento;
-import com.ceiba.agendamiento.modelo.dto.AgendamientoDto;
 import com.ceiba.agendamiento.modelo.dto.EstadoAgendamientoDto;
-import com.ceiba.agendamiento.modelo.entidad.EstadoAgendamiento;
+import com.ceiba.agendamiento.modelo.entidad.FlujoEstadoAgendamiento;
+import com.ceiba.agendamiento.modelo.entidad.ResultadoAgendamiento;
 
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,14 +35,14 @@ public class ComandoControladorAgendamiento {
 
     @PostMapping
     @ApiOperation("Crear Agendamiento")
-    public ComandoRespuesta<AgendamientoDto> crear(@RequestBody ComandoSolicitudAgendamiento comando) {
+    public ComandoRespuesta<ResultadoAgendamiento> crear(@RequestBody ComandoSolicitudAgendamiento comando) {
         return manejadorCrearAgendamiento.ejecutar(comando);
     }
 
     @PatchMapping("/{id}")
     @ApiOperation("Actualiza el estado de un agendamiento")
     public ComandoRespuesta<EstadoAgendamientoDto> actualizarEstado(@PathVariable("id") Long agendamientoId,
-            @RequestParam("estado") EstadoAgendamiento estado) {
+            @RequestParam("estado") FlujoEstadoAgendamiento estado) {
         return manejadorActualizarEstadoAgendamiento.ejecutar(
                 ComandoActualizarEstadoAgendamiento.builder().agendamientoId(agendamientoId).estado(estado).build());
     }

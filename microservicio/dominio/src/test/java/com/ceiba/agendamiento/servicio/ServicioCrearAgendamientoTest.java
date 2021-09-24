@@ -5,13 +5,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 
-import com.ceiba.agendamiento.modelo.dto.AgendamientoDto;
 import com.ceiba.agendamiento.modelo.entidad.Agendamiento;
 import com.ceiba.agendamiento.modelo.entidad.AgendamientoSequencia;
 import com.ceiba.agendamiento.modelo.entidad.EstadoAgendamiento;
-import com.ceiba.agendamiento.modelo.entidad.EstadoAgendamientoHistorico;
+import com.ceiba.agendamiento.modelo.entidad.FlujoEstadoAgendamiento;
+import com.ceiba.agendamiento.modelo.entidad.HistoricoEstadoAgendamiento;
+import com.ceiba.agendamiento.modelo.entidad.ResultadoAgendamiento;
 import com.ceiba.agendamiento.modelo.entidad.SolicitudAgendamiento;
 import com.ceiba.agendamiento.puerto.repositorio.RepositorioAgendamiento;
 import com.ceiba.agendamiento.servicio.testdatabuilder.SolicitudAgendamientoTestDataBuilder;
@@ -37,16 +37,19 @@ public class ServicioCrearAgendamientoTest {
         LocalDateTime haceDosDias = LocalDateTime.now().minusDays(2);
         SolicitudAgendamiento solicitud = SolicitudAgendamientoTestDataBuilder.defecto().conFecha(haceDosDias).build();
         
-        Agendamiento agendamiento = new Agendamiento(1L, AgendamientoSequencia.siguiente(), solicitud.getDesayunoId().getValor(), solicitud.getFecha(), Collections.singletonList(EstadoAgendamientoHistorico.pendiente(1L)));
+        HistoricoEstadoAgendamiento historico = new HistoricoEstadoAgendamiento();
+        historico.agregar(EstadoAgendamiento.pendiente(1L));
+
+        Agendamiento agendamiento = new Agendamiento(1L, AgendamientoSequencia.siguiente(), solicitud.getDesayunoId().getValor(), solicitud.getFecha(), historico);
         when(repositorio.crear(any(Agendamiento.class))).thenReturn(agendamiento);
 
         // act
-        AgendamientoDto resultado = subject.ejecutar(solicitud);
+        ResultadoAgendamiento detalle = subject.ejecutar(solicitud);
 
         // assert 
-        Assert.assertNotNull(resultado);
-        Assert.assertFalse(resultado.getCodigo().isEmpty());
-        Assert.assertEquals(resultado.getEstados().get(0).getNombre(), EstadoAgendamiento.PENDIENTE.name());
+        Assert.assertNotNull(detalle);
+        Assert.assertFalse(detalle.getCodigo().isEmpty());
+        Assert.assertEquals(detalle.getEstado(), FlujoEstadoAgendamiento.PENDIENTE.name());
     }
   
 }

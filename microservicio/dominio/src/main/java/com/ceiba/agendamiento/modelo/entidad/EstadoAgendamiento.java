@@ -1,52 +1,52 @@
 package com.ceiba.agendamiento.modelo.entidad;
 
-public enum EstadoAgendamiento {
-    PENDIENTE {
-        public EstadoAgendamiento siguiente() {
-            return ALISTAMIENTO;
-        }
+import static com.ceiba.dominio.ValidadorArgumento.validarObligatorio;
 
-        public boolean esCancelable() {
-            return true;
-        }
-    },
-    ALISTAMIENTO {
-        public EstadoAgendamiento siguiente() {
-            return DESPACHADO;
-        }
+import java.time.LocalDateTime;
+import java.util.Objects;
 
-        public boolean esCancelable() {
-            return false;
-        }
-    },
-    DESPACHADO {
-        public EstadoAgendamiento siguiente() {
-            return ENTREGADO;
-        }
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 
-        public boolean esCancelable() {
-            return false;
-        }
-    },
-    ENTREGADO {
-        public EstadoAgendamiento siguiente() {
-            return this;
-        }
+@Getter
+public class EstadoAgendamiento {
+    private Long id;
+    /**
+     * Codigo unico de agendamiento
+     */
+    private Long agendamientoId;
+    private LocalDateTime creacion;
+    private String nombre;
+    @Getter(value = AccessLevel.NONE)
+    private FlujoEstadoAgendamiento estado;
 
-        public boolean esCancelable() {
-            return false;
-        }
-    },
-    CANCELADO {
-        public EstadoAgendamiento siguiente() {
-            return this;
-        }
+    @Builder
+    public EstadoAgendamiento(Long id, Long agendamientoId, LocalDateTime creacion, FlujoEstadoAgendamiento estado) {
+        validarObligatorio(agendamientoId, "El identificador de agendamiento es obligatorio.");
+        validarObligatorio(creacion, "La fecha de creacion del estado es obligatoria.");
+        validarObligatorio(estado, "El tipo de estado es obligatorio.");
+        
+        this.agendamientoId = agendamientoId;
+        this.creacion = creacion;
+        this.estado = estado;
+        this.nombre = estado.name();
+    }
 
-        public boolean esCancelable() {
-            return false;
-        }
-    };
+    public static EstadoAgendamiento pendiente(Long agendamientoId) {
+        return new EstadoAgendamiento(null, agendamientoId, LocalDateTime.now(), FlujoEstadoAgendamiento.PENDIENTE); 
+    }
 
-    public abstract EstadoAgendamiento siguiente(); 
-    public abstract boolean esCancelable();
+    public boolean esCancelable() {
+        return estado.esCancelable();
+    } 
+    
+    public FlujoEstadoAgendamiento siguiente() {
+        return estado.siguiente();
+    }
+
+    public boolean esIgual(FlujoEstadoAgendamiento comparable) {
+        return Objects.equals(estado, comparable);
+    }
+   
 }

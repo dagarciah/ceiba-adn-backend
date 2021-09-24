@@ -1,17 +1,13 @@
 package com.ceiba.agendamiento.modelo.entidad;
 
+import static com.ceiba.dominio.ValidadorArgumento.validarObligatorio;
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import com.ceiba.agendamiento.excepcion.ExcepcionEstadoAgendamientoNoValido;
-import com.ceiba.agendamiento.modelo.dto.AgendamientoDto;
-import com.ceiba.agendamiento.modelo.dto.EstadoAgendamientoDto;
 import com.ceiba.desayuno.modelo.entidad.DesayunoId;
-import com.ceiba.dominio.ValidadorArgumento;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -22,60 +18,53 @@ public class Agendamiento {
     private String codigo;
     private Long desayunoId;
     private LocalDateTime programacion;
-    private EstadoAgendamientoHistorico estadoActual;
-    private List<EstadoAgendamientoHistorico> estados = new ArrayList<>();
+    private HistoricoEstadoAgendamiento historico;
 
-    @Builder
+    @Builder(toBuilder = true)
     public Agendamiento(Long id, String codigo, Long desayunoId, LocalDateTime programacion,
-            List<EstadoAgendamientoHistorico> estados) {
-        ValidadorArgumento.validarObligatorio(codigo, "El codigo unico de agendamiento es obligatorio");
-        ValidadorArgumento.validarObligatorio(desayunoId, "El identificador unico de desayuno es obligatorio");
-        ValidadorArgumento.validarObligatorio(programacion, "La fecha de programacion de entrega es obligatoria");
+            HistoricoEstadoAgendamiento historico) {
+        validarObligatorio(codigo, "El codigo unico de agendamiento es obligatorio");
+        validarObligatorio(desayunoId, "El identificador unico de desayuno es obligatorio");
+        validarObligatorio(programacion, "La fecha de programacion de entrega es obligatoria");
 
         this.id = id;
         this.codigo = codigo;
         this.desayunoId = desayunoId;
         this.programacion = programacion;
-
-        if (Objects.nonNull(estados)) {
-            this.estados.addAll(estados);
-            this.estadoActual = this.estados.stream().max(Comparator.comparing(EstadoAgendamientoHistorico::getCreacion))
-                    .orElse(null);
-        }
+        this.historico = Optional.ofNullable(historico).orElseGet(HistoricoEstadoAgendamiento::new);
     }
 
     public static Agendamiento nuevo(String codigo, DesayunoId desayunoId, LocalDateTime programacion) {
         return new Agendamiento(null, codigo, desayunoId.getValor(), programacion, null);
     }
 
-    public EstadoAgendamientoHistorico siguiente(EstadoAgendamiento nuevoEstado) {
-        if (Objects.equals(EstadoAgendamiento.CANCELADO, nuevoEstado)) {
-            if (!this.estadoActual.esCancelable()) {
-                throw new ExcepcionEstadoAgendamientoNoValido(id, EstadoAgendamiento.CANCELADO);
+    public EstadoAgendamiento siguiente(FlujoEstadoAgendamiento nuevoEstado) {
+        EstadoAgendamiento estadoActual = historico.getActual();
+        
+        if (Objects.equals(FlujoEstadoAgendamiento.CANCELADO, nuevoEstado)) {
+            if (!estadoActual.esCancelable()) {
+                throw new ExcepcionEstadoAgendamientoNoValido(id, FlujoEstadoAgendamiento.CANCELADO);
             }
-    
-            this.estadoActual = new EstadoAgendamientoHistorico(null, id, LocalDateTime.now(), nuevoEstado);
-            this.estados.add(this.estadoActual);
+
+            estadoActual = new EstadoAgendamiento(null, id, LocalDateTime.now(), nuevoEstado);
+            this.historico.agregar(estadoActual);
         } else {
-            if(!Objects.equals(this.estadoActual.siguiente(), nuevoEstado)) {
+            if (!Objects.equals(estadoActual.siguiente(), nuevoEstado)) {
                 throw new ExcepcionEstadoAgendamientoNoValido(id, nuevoEstado);
             }
 
-            if (!(this.estadoActual.esIgual(this.estadoActual.siguiente()))) {
-                this.estadoActual = new EstadoAgendamientoHistorico(null, id, LocalDateTime.now(), this.estadoActual.siguiente());
-                this.estados.add(this.estadoActual);
+            if (!(estadoActual.esIgual(estadoActual.siguiente()))) {
+                estadoActual = new EstadoAgendamiento(null, id, LocalDateTime.now(),
+                        estadoActual.siguiente());
+                this.historico.agregar(estadoActual);
             }
         }
 
         return estadoActual;
     }
 
-    public AgendamientoDto aDto() {
-        List<EstadoAgendamientoDto> estadosDto = this.estados.stream()
-                .sorted(Comparator.comparing(EstadoAgendamientoHistorico::getCreacion))
-                .map(e -> EstadoAgendamientoDto.builder().nombre(e.getNombre()).fechaCambio(e.getCreacion()).build())
-                .collect(Collectors.toList());
-
-        return AgendamientoDto.builder().id(id).codigo(codigo).programacion(programacion).estados(estadosDto).build();
+    public EstadoAgendamiento getEstadoActual() {
+        return historico.getActual();
     }
+
 }

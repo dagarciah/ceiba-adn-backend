@@ -1,12 +1,11 @@
 package com.ceiba.agendamiento.servicio.testdatabuilder;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.ceiba.agendamiento.modelo.entidad.Agendamiento;
 import com.ceiba.agendamiento.modelo.entidad.EstadoAgendamiento;
-import com.ceiba.agendamiento.modelo.entidad.EstadoAgendamientoHistorico;
+import com.ceiba.agendamiento.modelo.entidad.FlujoEstadoAgendamiento;
+import com.ceiba.agendamiento.modelo.entidad.HistoricoEstadoAgendamiento;
 
 public class AgendamientoTestDataBuilder {
 
@@ -14,14 +13,16 @@ public class AgendamientoTestDataBuilder {
     private String codigo;
     private Long desayunoId;
     private LocalDateTime programacion;
-    private List<EstadoAgendamientoHistorico> estados = new ArrayList<>();
+    private HistoricoEstadoAgendamiento historico = new HistoricoEstadoAgendamiento();
 
     private AgendamientoTestDataBuilder() {
         this.id = 1L;
         this.codigo = "ABC123DE";
         this.desayunoId = 1L;
         this.programacion = LocalDateTime.now().plusDays(2);
-        this.estados.add(new EstadoAgendamientoHistorico(1L, this.id, LocalDateTime.now(), EstadoAgendamiento.PENDIENTE));
+        
+        EstadoAgendamiento pendiente = new EstadoAgendamiento(1L, this.id, LocalDateTime.now(), FlujoEstadoAgendamiento.PENDIENTE);
+        this.historico.agregar(pendiente);
     }
 
     public static AgendamientoTestDataBuilder builder() {
@@ -48,13 +49,13 @@ public class AgendamientoTestDataBuilder {
         return this;
     }
 
-    public AgendamientoTestDataBuilder conEstado(EstadoAgendamientoHistorico estado) {
-        this.estados.add(estado);
+    public AgendamientoTestDataBuilder conEstado(EstadoAgendamiento estado) {
+        this.historico.agregar(estado);
         return this;
     }
 
-    public AgendamientoTestDataBuilder conEstados(List<EstadoAgendamientoHistorico> estados) {
-        this.estados = estados;
+    public AgendamientoTestDataBuilder conHistorico(HistoricoEstadoAgendamiento historico) {
+        this.historico = historico;
         return this;
     }
 
@@ -64,7 +65,7 @@ public class AgendamientoTestDataBuilder {
                 .codigo(codigo)
                 .desayunoId(desayunoId)
                 .programacion(programacion)
-                .estados(estados)
+                .historico(historico)
                 .build();
     }
 }

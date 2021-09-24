@@ -2,16 +2,19 @@ package com.ceiba.agendamiento.validacion;
 
 import java.util.function.Supplier;
 
+import com.ceiba.dominio.ValidadorArgumento;
+
 import lombok.Getter;
 
 public final class ValidacionRegla {
     @Getter
     private final boolean valida;
-    private final Supplier<RuntimeException> error;
+    private final Supplier<RuntimeException> proveedorError;
 
-    private ValidacionRegla(boolean valida, Supplier<RuntimeException> error) {
+    private ValidacionRegla(boolean valida, Supplier<RuntimeException> proveedorError) {
+        ValidadorArgumento.validarObligatorio(proveedorError, "El proveedor de error es obligatorio");
         this.valida = valida;
-        this.error = error;
+        this.proveedorError = proveedorError;
     }
 
     public static ValidacionRegla invalida(Supplier<RuntimeException> error) {
@@ -24,7 +27,7 @@ public final class ValidacionRegla {
 
     public void lanzarError() {
         if (!valida) {
-            throw error.get();
+            throw proveedorError.get();
         }
     }
 }

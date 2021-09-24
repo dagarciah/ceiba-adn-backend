@@ -1,9 +1,11 @@
 package com.ceiba.agendamiento.adaptador.repositorio;
 
 import java.util.Collections;
+import java.util.Objects;
 
 import com.ceiba.agendamiento.modelo.entidad.Agendamiento;
-import com.ceiba.agendamiento.modelo.entidad.EstadoAgendamientoHistorico;
+import com.ceiba.agendamiento.modelo.entidad.EstadoAgendamiento;
+import com.ceiba.agendamiento.modelo.entidad.HistoricoEstadoAgendamiento;
 import com.ceiba.agendamiento.puerto.repositorio.RepositorioAgendamiento;
 import com.ceiba.infraestructura.jdbc.CustomNamedParameterJdbcTemplate;
 import com.ceiba.infraestructura.jdbc.sqlstatement.SqlStatement;
@@ -31,22 +33,30 @@ public class RepositorioAgendamientoSql implements RepositorioAgendamiento {
     public Agendamiento crear(Agendamiento agendamiento) {
         Long id = this.customNamedParameterJdbcTemplate.crear(agendamiento, sqlCrear);
 
-        EstadoAgendamientoHistorico estado = EstadoAgendamientoHistorico.pendiente(id);
-        this.customNamedParameterJdbcTemplate.crear(estado, sqlCrearEstado);
+        EstadoAgendamiento estado = EstadoAgendamiento.pendiente(id);
+        crearEstadoHistorico(estado);
 
-        return new Agendamiento(id, agendamiento.getCodigo(), agendamiento.getDesayunoId(),
-                agendamiento.getProgramacion(), Collections.singletonList(estado));
+        return agendamiento.toBuilder()
+                    .id(id)
+                    .historico(new HistoricoEstadoAgendamiento(estado))
+                    .build();
     }
-
+    
     @Override
     public Agendamiento encontrar(Long id) {
         return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate()
-                .queryForObject(sqlCrearEstado, Collections.singletonMap("id", id), new MapeoAgendamiento());
+        .queryForObject(sqlCrearEstado, Collections.singletonMap("id", id), new MapeoAgendamiento());
     }
-
+    
     @Override
     public void actualizar(Agendamiento agendamiento) {
-        // TODO Auto-generated method stub
-        
+        Agendamiento existente = encontrar(agendamiento.getId());
+        if (!Objects.equals(existente.getEstadoActual(), agendamiento.getEstadoActual())) {
+            crearEstadoHistorico(agendamiento.getEstadoActual());
+        }
+    }
+    
+    private void crearEstadoHistorico(EstadoAgendamiento estado) {
+        this.customNamedParameterJdbcTemplate.crear(estado, sqlCrearEstado);
     }
 }
