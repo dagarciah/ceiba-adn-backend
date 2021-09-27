@@ -45,7 +45,7 @@ public class RepositorioAgendamientoSql implements RepositorioAgendamiento {
     @Override
     public Agendamiento encontrar(Long id) {
         return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate()
-        .queryForObject(sqlCrearEstado, Collections.singletonMap("id", id), new MapeoAgendamiento());
+        .queryForObject(sqlEncontrar, Collections.singletonMap("id", id), new MapeoAgendamiento());
     }
     
     @Override

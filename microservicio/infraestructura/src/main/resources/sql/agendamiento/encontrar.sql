@@ -1,4 +1,4 @@
-select a.id, a.codigo, a.desayuno_id, a.programacion, h.nombre as estado, h.creacion as ultimo_cambio
+select a.id, a.codigo, a.desayuno_id, a.programacion, h.id as estado_id, h.nombre as estado_nombre, h.creacion as estado_fecha
   from agendamiento a
   join (
    select a.id as agendamiento, max(h.id) as estado

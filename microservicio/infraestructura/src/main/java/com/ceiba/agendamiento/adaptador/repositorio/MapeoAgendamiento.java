@@ -19,17 +19,19 @@ public class MapeoAgendamiento implements RowMapper<Agendamiento>, MapperResult 
             return null;
         }
 
+        long agendamientoId = resultSet.getLong("id");
         return Agendamiento.builder()
-                .id(resultSet.getLong("id"))
+                .id(agendamientoId)
                 .codigo(resultSet.getString("codigo"))
                 .desayunoId(resultSet.getLong("desayuno_id"))
                 .programacion(extraerLocalDateTime(resultSet, "programacion"))
                 .historico(
                     new HistoricoEstadoAgendamiento(
                         EstadoAgendamiento.builder()
-                            .id(resultSet.getLong("id"))
-                            .estado(FlujoEstadoAgendamiento.valueOf(resultSet.getString("nombre")))
-                            .creacion(extraerLocalDateTime(resultSet, "creacion"))
+                            .id(resultSet.getLong("estado_id"))
+                            .agendamientoId(agendamientoId)
+                            .estado(FlujoEstadoAgendamiento.valueOf(resultSet.getString("estado_nombre")))
+                            .creacion(extraerLocalDateTime(resultSet, "estado_fecha"))
                             .build()
                     )
                 )

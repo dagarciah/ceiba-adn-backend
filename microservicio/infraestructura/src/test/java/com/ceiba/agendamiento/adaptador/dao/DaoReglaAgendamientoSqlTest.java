@@ -2,7 +2,7 @@ package com.ceiba.agendamiento.adaptador.dao;
 
 import java.util.List;
 
-import com.ceiba.ConfiguracionDaoTest;
+import com.ceiba.ConfiguracionDaoBase;
 import com.ceiba.agendamiento.validacion.ReglaAgendamiento;
 import com.ceiba.agendamiento.validacion.ReglaDiaDeLaSemanaNoHabil;
 import com.ceiba.agendamiento.validacion.ReglaDiaFeriado;
@@ -16,7 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = { DaoReglaAgendamientoSql.class, ConfiguracionDaoTest.class })
+@ContextConfiguration(classes = { DaoReglaAgendamientoSql.class, ConfiguracionDaoBase.class })
 public class DaoReglaAgendamientoSqlTest {
 
     @Autowired

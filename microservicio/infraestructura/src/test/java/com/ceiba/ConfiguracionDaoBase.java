@@ -9,6 +9,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @ComponentScan("com.ceiba.infraestructura.jdbc")
 @Import(ConfiguracionBase.class)
-public class ConfiguracionDaoTest {
+public class ConfiguracionDaoBase {
     
 }

@@ -19,7 +19,7 @@ public class ManejadorActualizarEstadoAgendamiento implements ManejadorComandoRe
 
     @Override
     public ComandoRespuesta<EstadoAgendamientoDto> ejecutar(ComandoActualizarEstadoAgendamiento comando) {
-        return new ComandoRespuesta<EstadoAgendamientoDto>(actualizadorEstado.ejecutar(comando.getAgendamientoId(), comando.getEstado()));
+        return new ComandoRespuesta<>(actualizadorEstado.ejecutar(comando.getAgendamientoId(), comando.getEstado()));
     }
     
 }
