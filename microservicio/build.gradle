@@ -79,6 +79,7 @@ dependencies {
 	
 	implementation project.ext.springbootundertow
 	implementation project.ext.flyway
+	implementation 'org.jboss.xnio:xnio-nio:3.8.0.Final'
 
 	implementation project(':infraestructura')
 }

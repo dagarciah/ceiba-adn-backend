@@ -1,16 +1,15 @@
 package com.ceiba.agendamiento.puerto.dao;
 
-import java.util.List;
-
 import com.ceiba.agendamiento.modelo.dto.AgendamientoDto;
-import com.ceiba.agendamiento.modelo.entidad.FlujoEstadoAgendamiento;
+
+import java.util.List;
 
 public interface DaoAgendamiento {
     /**
      * Lista todos los agendamientos
      * @return Un lista de agendamientos
      */
-    List<AgendamientoDto> listar(List<FlujoEstadoAgendamiento> estados);
+    List<AgendamientoDto> listar(List<String> estados);
 
     /**
      * Obtiene el detalle de agendamiento por codigo dado

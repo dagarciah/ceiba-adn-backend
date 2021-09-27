@@ -1,11 +1,5 @@
 package com.ceiba.agendamiento.adaptador.dao;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import com.ceiba.agendamiento.modelo.dto.AgendamientoDto;
 import com.ceiba.agendamiento.modelo.dto.EstadoAgendamientoDto;
 import com.ceiba.agendamiento.modelo.entidad.FlujoEstadoAgendamiento;
@@ -13,12 +7,15 @@ import com.ceiba.agendamiento.puerto.dao.DaoAgendamiento;
 import com.ceiba.agendamiento.puerto.excepcion.AgendamientoNoEncontrado;
 import com.ceiba.infraestructura.jdbc.CustomNamedParameterJdbcTemplate;
 import com.ceiba.infraestructura.jdbc.sqlstatement.SqlStatement;
-
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 @Component
 public class DaoAgendamientoSql implements DaoAgendamiento {
+    public static final String EXPRESION_ESTADOS_SOPORTADOS = "^(Pendiente|Alistamiento|Despachado|Entregado|Cancelado)$";
     private final CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate;
 
     public DaoAgendamientoSql(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate) {
@@ -35,12 +32,23 @@ public class DaoAgendamientoSql implements DaoAgendamiento {
     private static String sqlListarEstadoHistorico;
 
     @Override
-    public List<AgendamientoDto> listar(List<FlujoEstadoAgendamiento> estados) {
-        Map<String, List<String>> parametros = Collections.singletonMap("estado",
-                estados.stream().map(FlujoEstadoAgendamiento::name).collect(Collectors.toList()));
+    public List<AgendamientoDto> listar(List<String> estados) {
+        List<FlujoEstadoAgendamiento> enums = estados.stream()
+                .filter(e -> e.matches(EXPRESION_ESTADOS_SOPORTADOS))
+                .map(FlujoEstadoAgendamiento::valueOf)
+                .collect(Collectors.toList());
 
-        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().query(sqlListar, parametros,
-                new MapeoAgendamientoYEstadoDto());
+        if (estados.size() != enums.size()) {
+            throw new IllegalArgumentException("Ha filtrado por un estado de agendamiento no valido.");
+        }
+
+        if (enums.isEmpty()) {
+            enums = Arrays.asList(FlujoEstadoAgendamiento.values());
+        }
+
+        Map<String, List<String>> parametros = comoParametros(enums);
+        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate()
+                .query(sqlListar, parametros, new MapeoAgendamientoYEstadoDto());
     }
 
     @Override
@@ -61,5 +69,10 @@ public class DaoAgendamientoSql implements DaoAgendamiento {
                         new MapeoEstadoAgendamientoDto());
 
         return agendamiento.toBuilder().estados(estados).build();
+    }
+
+    private Map<String, List<String>> comoParametros(List<FlujoEstadoAgendamiento> enums) {
+        return Collections.singletonMap("estado",
+                enums.stream().map(FlujoEstadoAgendamiento::name).collect(Collectors.toList()));
     }
 }
