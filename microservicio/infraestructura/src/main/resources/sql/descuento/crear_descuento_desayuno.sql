@@ -1,0 +1,1 @@
+insert into descuento_desayuno(descuento_id, desayuno_id) values (:descuentoId, :desayunoId);

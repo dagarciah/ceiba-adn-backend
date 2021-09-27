@@ -13,3 +13,6 @@ insert into estado_agendamiento_historico (creacion, nombre, agendamiento_id) va
 -- #Actualizar estado agendamiento
 insert into agendamiento (id, codigo, desayuno_id, programacion) values (99, 'ELIMINAR', 1, '2021-09-29 08:24:03');
 insert into estado_agendamiento_historico (creacion, nombre, agendamiento_id) values ('2021-09-29 08:25:03', 'PENDIENTE', 99);
+
+-- #Listar descuentos
+insert into descuento(etiqueta, porcentaje, fecha_inicio, fecha_fin) values ('Dia de madres', 15.0, '2021-05-01', '2021-05-31');

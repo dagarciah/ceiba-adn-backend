@@ -14,6 +14,7 @@ public class MapeoDesayuno implements RowMapper<DesayunoDto> {
                 .nombre(resultSet.getString("nombre"))
                 .descripcion(resultSet.getString("descripcion"))
                 .imagen(resultSet.getString("imagen"))
+                .precio(resultSet.getBigDecimal("precio"))
                 .build();
     }
 }

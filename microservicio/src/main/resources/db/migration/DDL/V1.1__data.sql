@@ -1,4 +1,4 @@
-insert into desayuno(nombre, descripcion, imagen) values('Ancheta de Amor', 'La sorpresa es que le llegue a tu ser querido algo que no se espera y menos que seas es el primero en sorprenderle con uno de nuestros desayunos sorpresa', 'QW5jaGV0YSBkZSBBbW9y.jpg');
+insert into desayuno(nombre, precio, descripcion, imagen) values('Ancheta de Amor', 150000.00, 'La sorpresa es que le llegue a tu ser querido algo que no se espera y menos que seas es el primero en sorprenderle con uno de nuestros desayunos sorpresa', 'QW5jaGV0YSBkZSBBbW9y.jpg');
 
 insert into detalle(nombre) values ('Bandeja de patas en madera');
 insert into detalle(nombre) values ('Hermoso individual rojo de papel con diseño');

@@ -18,6 +18,7 @@ create table desayuno(
     nombre varchar (255) not null,
     descripcion varchar (1024) not null,
     imagen varchar (64) not null,
+    precio decimal(11, 2) not null,
     primary key(id)
 );
 
@@ -30,7 +31,7 @@ create table detalle(
 create table detalle_desayuno (
     desayuno_id int (11) not null,
     detalle_id int (11) not null,
-    cantidad decimal (4, 2) not null,
+    cantidad decimal (6, 2) not null,
     unidad varchar (3) default '',
     primary key (desayuno_id, detalle_id),
     foreign key (desayuno_id) references desayuno(id),
@@ -53,4 +54,21 @@ create table estado_agendamiento_historico(
     creacion datetime null,
     primary key(id),
     foreign key (agendamiento_id) references agendamiento(id)
+);
+
+create table descuento(
+    id int (11) not null auto_increment,
+    etiqueta varchar (255) not null,
+    porcentaje decimal(5, 2) not null,
+    fecha_inicio date not null,
+    fecha_fin date not null,
+    primary key (id)
+);
+
+create table descuento_desayuno (
+    desayuno_id int (11) not null,
+    descuento_id int (11) not null,
+    primary key (desayuno_id, descuento_id),
+    foreign key (desayuno_id) references desayuno(id),
+    foreign key (descuento_id) references descuento(id)
 );
