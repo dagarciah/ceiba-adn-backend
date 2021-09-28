@@ -1,0 +1,1 @@
+insert into descuento(etiqueta, porcentaje, fecha_inicio, fecha_fin) values (:etiqueta, :porcentaje, :fechaInicio, :fechaFin);

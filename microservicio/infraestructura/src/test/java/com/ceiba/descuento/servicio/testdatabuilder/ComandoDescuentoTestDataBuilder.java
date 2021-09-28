@@ -10,10 +10,10 @@ import java.util.List;
 public class ComandoCrearDescuentoTestDataBuilder {
 
     private final String etiqueta;
-    private final BigDecimal porcentaje;
-    private final LocalDate fechaInicio;
-    private final LocalDate fechaFin;
     private final List<Long> desayunos;
+    private BigDecimal porcentaje;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
 
     public ComandoCrearDescuentoTestDataBuilder() {
         etiqueta = "Etiqueta";
@@ -31,5 +31,20 @@ public class ComandoCrearDescuentoTestDataBuilder {
                 .fechaFin(fechaFin)
                 .desayunos(desayunos)
                 .build();
+    }
+
+    public ComandoCrearDescuentoTestDataBuilder conPorcentaje(BigDecimal porcentaje) {
+        this.porcentaje = porcentaje;
+        return this;
+    }
+
+    public ComandoCrearDescuentoTestDataBuilder conFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+        return this;
+    }
+
+    public ComandoCrearDescuentoTestDataBuilder conFechaFin(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
+        return this;
     }
 }
