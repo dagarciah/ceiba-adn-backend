@@ -45,14 +45,15 @@ public class ServicioValidadorFechaAgendamiento {
                 fecha = fecha.plusDays(1);
             }
 
-            if (diasHabiles < 2) {
-                validacion.get().lanzarError();
+            ValidacionRegla validacionRegla = validacion.get();
+            if (diasHabiles < 2 && !validacionRegla.isValida()) {
+                validacionRegla.lanzarError();
             }
         }
     }
 
     private void validarFechaAgendamientoMinimoUnDiaDespuesCreacion(LocalDateTime fechaHoraCreacion,
-            LocalDateTime fechaHoraAgendamiento) {
+                                                                    LocalDateTime fechaHoraAgendamiento) {
 
         LocalDateTime diaDespuesCreacion = fechaHoraCreacion.plusDays(1L);
         ValidadorArgumento.validarMenor(diaDespuesCreacion, fechaHoraAgendamiento,

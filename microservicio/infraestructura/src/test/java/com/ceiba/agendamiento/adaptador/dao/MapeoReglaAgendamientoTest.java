@@ -1,7 +1,10 @@
 package com.ceiba.agendamiento.adaptador.dao;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import com.ceiba.agendamiento.excepcion.ExcepcionFechaAgendamientoNoValida;
+import com.ceiba.agendamiento.excepcion.ExcepcionFormatoValorInvalido;
+import com.ceiba.agendamiento.validacion.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,18 +13,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Objects;
 
-import com.ceiba.agendamiento.excepcion.ExcepcionFechaAgendamientoNoValida;
-import com.ceiba.agendamiento.excepcion.ExcepcionFormatoValorInvalido;
-import com.ceiba.agendamiento.validacion.ReglaAgendamiento;
-import com.ceiba.agendamiento.validacion.ReglaDiaDeLaSemanaNoHabil;
-import com.ceiba.agendamiento.validacion.ReglaDiaFeriado;
-import com.ceiba.agendamiento.validacion.ReglaFranjaHoraria;
-import com.ceiba.agendamiento.validacion.ValidacionRegla;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class MapeoReglaAgendamientoTest {
 
@@ -41,10 +37,11 @@ public class MapeoReglaAgendamientoTest {
 
         ReglaAgendamiento regla = subject.mapRow(result, 1);
 
+        assert Objects.nonNull(regla);
         ValidacionRegla validacion = regla.validar(LocalDateTime.of(LocalDate.now(), LocalTime.of(9, 0)));
 
-        Assert.assertNotNull(regla);
-        Assert.assertTrue(validacion.isValida());
+        assertNotNull(regla);
+        assertTrue(validacion.isValida());
     }
 
     @Test
@@ -54,7 +51,7 @@ public class MapeoReglaAgendamientoTest {
         when(result.getString("hora_inicial")).thenReturn("23:50");
         when(result.getString("hora_final")).thenReturn("12:00 PM");
 
-        Assert.assertThrows("El campo \"dia_semana\" contiene un valor no valido.", ExcepcionFormatoValorInvalido.class,
+        assertThrows("El campo \"dia_semana\" contiene un valor no valido.", ExcepcionFormatoValorInvalido.class,
                 () -> subject.mapRow(result, 1));
     }
 
@@ -66,11 +63,12 @@ public class MapeoReglaAgendamientoTest {
 
         ReglaAgendamiento regla = subject.mapRow(result, 1);
 
+        assert Objects.nonNull(regla);
         ValidacionRegla validacion = regla.validar(LocalDateTime.of(2021, 10, 18, 0, 0));
 
-        Assert.assertNotNull(regla);
-        Assert.assertFalse(validacion.isValida());
-        Assert.assertThrows(ExcepcionFechaAgendamientoNoValida.class, validacion::lanzarError);
+        assertNotNull(regla);
+        assertFalse(validacion.isValida());
+        assertThrows(ExcepcionFechaAgendamientoNoValida.class, validacion::lanzarError);
     }
 
     @Test
@@ -79,7 +77,7 @@ public class MapeoReglaAgendamientoTest {
         when(result.getString("tipo")).thenReturn(ReglaDiaFeriado.class.getSimpleName());
         when(result.getString("fecha")).thenReturn("2021/10/18");
 
-        Assert.assertThrows("El campo \"fecha\" contiene un valor no valido.", ExcepcionFormatoValorInvalido.class,
+        assertThrows("El campo \"fecha\" contiene un valor no valido.", ExcepcionFormatoValorInvalido.class,
                 () -> subject.mapRow(result, 1));
     }
 
@@ -131,7 +129,7 @@ public class MapeoReglaAgendamientoTest {
         when(result.getString("tipo")).thenReturn(ReglaDiaDeLaSemanaNoHabil.class.getSimpleName());
         when(result.getString("dia_semana")).thenReturn("MONDAY");
 
-        Assert.assertThrows("El campo \"hora_inicial\" u \"hora_final\" contiene un valor no valido.",
+        assertThrows("El campo \"hora_inicial\" u \"hora_final\" contiene un valor no valido.",
                 ExcepcionFormatoValorInvalido.class, () -> subject.mapRow(result, 1));
     }
 
@@ -142,11 +140,12 @@ public class MapeoReglaAgendamientoTest {
 
         ReglaAgendamiento regla = subject.mapRow(result, 1);
 
+        assert Objects.nonNull(regla);
         ValidacionRegla validacion = regla.validar(diaValidacion);
 
-        Assert.assertNotNull(regla);
-        Assert.assertFalse(validacion.isValida());
-        Assert.assertThrows(ExcepcionFechaAgendamientoNoValida.class, validacion::lanzarError);
+        assertNotNull(regla);
+        assertFalse(validacion.isValida());
+        assertThrows(ExcepcionFechaAgendamientoNoValida.class, validacion::lanzarError);
     }
 
 }
