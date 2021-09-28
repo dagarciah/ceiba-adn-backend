@@ -1,9 +1,6 @@
 package com.ceiba.descuento.comando;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,7 +10,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ComandoCrearDescuento {
+public class ComandoDescuento {
+    @Setter
+    private Long id;
     private String etiqueta;
     private BigDecimal porcentaje;
     private LocalDate fechaInicio;

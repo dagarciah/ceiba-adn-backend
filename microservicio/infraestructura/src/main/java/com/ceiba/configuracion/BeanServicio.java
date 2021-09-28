@@ -9,6 +9,7 @@ import com.ceiba.agendamiento.servicio.ServicioCrearAgendamiento;
 import com.ceiba.agendamiento.servicio.ServicioValidadorFechaAgendamiento;
 import com.ceiba.descuento.comando.fabrica.FabricaDescuento;
 import com.ceiba.descuento.puerto.repositorio.RepositorioDescuento;
+import com.ceiba.descuento.servicio.ServicioActualizarDescuento;
 import com.ceiba.descuento.servicio.ServicioCrearDescuento;
 import com.ceiba.usuario.puerto.repositorio.RepositorioUsuario;
 import com.ceiba.usuario.servicio.ServicioActualizarUsuario;
@@ -54,5 +55,10 @@ public class BeanServicio {
     @Bean
     public ServicioCrearDescuento servicioCrearDescuento(RepositorioDescuento repositorio) {
         return new ServicioCrearDescuento(repositorio);
+    }
+
+    @Bean
+    public ServicioActualizarDescuento servicioActualizarDescuento(RepositorioDescuento repositorio) {
+        return new ServicioActualizarDescuento(repositorio);
     }
 }

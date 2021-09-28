@@ -15,6 +15,7 @@ public class DescuentoTestDataBuilder {
     private final LocalDate fechaFin;
     private final List<DesayunoId> desayunos;
     private final String etiqueta;
+    private Long id;
 
     public DescuentoTestDataBuilder() {
         etiqueta = "Dia de madres";
@@ -26,11 +27,17 @@ public class DescuentoTestDataBuilder {
 
     public Descuento build() {
         return Descuento.builder()
+                .id(id)
                 .etiqueta(etiqueta)
                 .porcentaje(porcentaje)
                 .fechaInicio(fechaInicio)
                 .fechaFin(fechaFin)
                 .desayunos(desayunos)
                 .build();
+    }
+
+    public DescuentoTestDataBuilder conId(Long id) {
+        this.id = id;
+        return this;
     }
 }

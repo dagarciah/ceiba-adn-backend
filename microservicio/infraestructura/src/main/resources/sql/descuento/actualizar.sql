@@ -1,1 +1,2 @@
-insert into descuento(etiqueta, porcentaje, fecha_inicio, fecha_fin) values (:etiqueta, :porcentaje, :fechaInicio, :fechaFin);
+update descuento set etiqueta = :etiqueta, porcentaje = :porcentaje, fecha_inicio = :fechaInicio, fecha_fin = :fechaFin
+ where id = :id;

@@ -16,3 +16,6 @@ insert into estado_agendamiento_historico (creacion, nombre, agendamiento_id) va
 
 -- #Listar descuentos
 insert into descuento(etiqueta, porcentaje, fecha_inicio, fecha_fin) values ('Dia de madres', 15.0, '2021-05-01', '2021-05-31');
+
+-- #Actualizar descuento
+insert into descuento(etiqueta, porcentaje, fecha_inicio, fecha_fin) values ('Dia de padre (Actualizar)', 10.0, '2021-06-01', '2021-06-30');

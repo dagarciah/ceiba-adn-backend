@@ -1,13 +1,13 @@
 package com.ceiba.descuento.servicio.testdatabuilder;
 
-import com.ceiba.descuento.comando.ComandoCrearDescuento;
+import com.ceiba.descuento.comando.ComandoDescuento;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-public class ComandoCrearDescuentoTestDataBuilder {
+public class ComandoDescuentoTestDataBuilder {
 
     private final String etiqueta;
     private final List<Long> desayunos;
@@ -15,7 +15,7 @@ public class ComandoCrearDescuentoTestDataBuilder {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
 
-    public ComandoCrearDescuentoTestDataBuilder() {
+    public ComandoDescuentoTestDataBuilder() {
         etiqueta = "Etiqueta";
         porcentaje = BigDecimal.TEN;
         fechaInicio = LocalDate.now();
@@ -23,8 +23,8 @@ public class ComandoCrearDescuentoTestDataBuilder {
         desayunos = Collections.singletonList(1L);
     }
 
-    public ComandoCrearDescuento build() {
-        return ComandoCrearDescuento.builder()
+    public ComandoDescuento build() {
+        return ComandoDescuento.builder()
                 .etiqueta(etiqueta)
                 .porcentaje(porcentaje)
                 .fechaInicio(fechaInicio)
@@ -33,17 +33,17 @@ public class ComandoCrearDescuentoTestDataBuilder {
                 .build();
     }
 
-    public ComandoCrearDescuentoTestDataBuilder conPorcentaje(BigDecimal porcentaje) {
+    public ComandoDescuentoTestDataBuilder conPorcentaje(BigDecimal porcentaje) {
         this.porcentaje = porcentaje;
         return this;
     }
 
-    public ComandoCrearDescuentoTestDataBuilder conFechaInicio(LocalDate fechaInicio) {
+    public ComandoDescuentoTestDataBuilder conFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
         return this;
     }
 
-    public ComandoCrearDescuentoTestDataBuilder conFechaFin(LocalDate fechaFin) {
+    public ComandoDescuentoTestDataBuilder conFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
         return this;
     }
